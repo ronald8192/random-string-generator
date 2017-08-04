@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="370.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ronald8192.randomStringGenerator.viewController.HomeController">
+   <children>
+   <HBox prefHeight="370" prefWidth="640" BorderPane.alignment="CENTER">
+      <children>
+         <VBox prefWidth="300.0">
+            <children>
+               <HBox prefHeight="100.0" prefWidth="200.0">
+                  <children>
+                     <VBox prefHeight="151.0">
+                        <children>
+                           <RadioButton id="radioDefinedGroup" fx:id="radioDefinedGroup" mnemonicParsing="false" selected="true" text="Pre-definded Group">
+                              <toggleGroup>
+                                 <ToggleGroup fx:id="grpPossibleChar" />
+                              </toggleGroup>
+                           </RadioButton>
+                           <HBox alignment="CENTER_LEFT">
+                              <children>
+                                 <CheckBox id="chkNumber" fx:id="chkNumber" mnemonicParsing="false" selected="true" text="0-9">
+                                    <font>
+                                       <Font name="PT Mono" size="13.0" />
+                                    </font>
+                                    <padding>
+                                       <Insets bottom="2.0" top="2.0" />
+                                    </padding>
+                                 </CheckBox>
+                              </children>
+                              <VBox.margin>
+                                 <Insets bottom="2.0" left="24.0" top="2.0" />
+                              </VBox.margin>
+                              <padding>
+                                 <Insets bottom="2.0" top="2.0" />
+                              </padding>
+                           </HBox>
+                           <HBox alignment="CENTER_LEFT">
+                              <children>
+                                 <CheckBox id="chkLowerCase" fx:id="chkLowerCase" mnemonicParsing="false" selected="true" text="a-z">
+                                    <font>
+                                       <Font name="PT Mono" size="13.0" />
+                                    </font>
+                                    <padding>
+                                       <Insets bottom="2.0" top="2.0" />
+                                    </padding>
+                                 </CheckBox>
+                              </children>
+                              <VBox.margin>
+                                 <Insets bottom="2.0" left="24.0" top="2.0" />
+                              </VBox.margin>
+                              <padding>
+                                 <Insets bottom="2.0" top="2.0" />
+                              </padding>
+                           </HBox>
+                           <HBox alignment="CENTER_LEFT">
+                              <children>
+                                 <CheckBox id="chkUpperCase" fx:id="chkUpperCase" mnemonicParsing="false" selected="true" text="A-Z">
+                                    <font>
+                                       <Font name="PT Mono" size="13.0" />
+                                    </font>
+                                    <padding>
+                                       <Insets bottom="2.0" top="2.0" />
+                                    </padding>
+                                 </CheckBox>
+                              </children>
+                              <VBox.margin>
+                                 <Insets bottom="2.0" left="24.0" top="2.0" />
+                              </VBox.margin>
+                              <padding>
+                                 <Insets bottom="2.0" top="2.0" />
+                              </padding>
+                           </HBox>
+                           <HBox alignment="CENTER_LEFT">
+                              <children>
+                                 <CheckBox id="chkSymbol1" fx:id="chkSymbol1" mnemonicParsing="false" text="`~!@#$%^&amp;*-=_+">
+                                    <font>
+                                       <Font name="PT Mono" size="13.0" />
+                                    </font>
+                                    <padding>
+                                       <Insets bottom="2.0" top="2.0" />
+                                    </padding>
+                                 </CheckBox>
+                              </children>
+                              <VBox.margin>
+                                 <Insets bottom="2.0" left="24.0" top="2.0" />
+                              </VBox.margin>
+                              <padding>
+                                 <Insets bottom="2.0" top="2.0" />
+                              </padding>
+                           </HBox>
+                           <HBox alignment="CENTER_LEFT">
+                              <children>
+                                 <CheckBox id="chkSymbol2" fx:id="chkSymbol2" mnemonicParsing="false" text="()[]{}\|/&lt;&gt;">
+                                    <font>
+                                       <Font name="PT Mono" size="13.0" />
+                                    </font>
+                                    <padding>
+                                       <Insets bottom="2.0" top="2.0" />
+                                    </padding>
+                                 </CheckBox>
+                              </children>
+                              <VBox.margin>
+                                 <Insets bottom="2.0" left="24.0" top="2.0" />
+                              </VBox.margin>
+                              <padding>
+                                 <Insets bottom="2.0" top="2.0" />
+                              </padding>
+                           </HBox>
+                           <HBox alignment="CENTER_LEFT">
+                              <children>
+                                 <CheckBox id="chkSymbol3" fx:id="chkSymbol3" mnemonicParsing="false" text=";:&quot;',.">
+                                    <font>
+                                       <Font name="PT Mono" size="13.0" />
+                                    </font>
+                                 </CheckBox>
+                              </children>
+                              <VBox.margin>
+                                 <Insets bottom="2.0" left="24.0" top="2.0" />
+                              </VBox.margin>
+                              <padding>
+                                 <Insets bottom="2.0" top="2.0" />
+                              </padding>
+                           </HBox>
+                        </children>
+                        <HBox.margin>
+                           <Insets right="20.0" />
+                        </HBox.margin>
+                     </VBox>
+                     <VBox alignment="CENTER" prefHeight="200.0">
+                        <children>
+                           <Label>
+                              <VBox.margin>
+                                 <Insets bottom="1.0" />
+                              </VBox.margin>
+                           </Label>
+                           <TextField id="txtMinOccurNumber" fx:id="txtMinOccurNumber" alignment="CENTER" prefWidth="50.0" text="1">
+                              <VBox.margin>
+                                 <Insets bottom="2.0" top="1.0" />
+                              </VBox.margin>
+                           </TextField>
+                           <TextField id="txtMinOccurLowerCase" fx:id="txtMinOccurLowerCase" alignment="CENTER" prefWidth="50.0" text="1">
+                              <VBox.margin>
+                                 <Insets bottom="2.0" top="1.0" />
+                              </VBox.margin>
+                           </TextField>
+                           <TextField id="txtMinOccurUpperCase" fx:id="txtMinOccurUpperCase" alignment="CENTER" prefWidth="50.0" text="1">
+                              <VBox.margin>
+                                 <Insets bottom="2.0" top="1.0" />
+                              </VBox.margin>
+                           </TextField>
+                           <TextField id="txtMinOccurSymbol1" fx:id="txtMinOccurSymbol1" alignment="CENTER" prefWidth="50.0" text="1">
+                              <VBox.margin>
+                                 <Insets bottom="2.0" top="1.0" />
+                              </VBox.margin>
+                           </TextField>
+                           <TextField id="txtMinOccurSymbol2" fx:id="txtMinOccurSymbol2" alignment="CENTER" prefWidth="50.0" text="1">
+                              <VBox.margin>
+                                 <Insets bottom="2.0" top="1.0" />
+                              </VBox.margin>
+                           </TextField>
+                           <TextField id="txtMinOccurSymbol3" fx:id="txtMinOccurSymbol3" alignment="CENTER" prefWidth="50.0" text="1">
+                              <VBox.margin>
+                                 <Insets bottom="2.0" top="1.0" />
+                              </VBox.margin>
+                           </TextField>
+                        </children>
+                     </VBox>
+                  </children>
+               </HBox>
+               <VBox prefWidth="282.0">
+                  <children>
+                     <RadioButton id="radioCustom" fx:id="radioCustom" mnemonicParsing="false" text="Custom" toggleGroup="$grpPossibleChar" />
+                     <TextArea id="txtAllPossibleCharacter" fx:id="txtAllPossibleCharacter" disable="true" prefHeight="75.0" text="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" wrapText="true">
+                        <VBox.margin>
+                           <Insets bottom="4.0" left="24.0" right="8.0" top="4.0" />
+                        </VBox.margin>
+                     </TextArea>
+                  </children>
+                  <VBox.margin>
+                     <Insets bottom="4.0" />
+                  </VBox.margin>
+               </VBox>
+               <HBox alignment="CENTER" prefWidth="250.0">
+                  <children>
+                     <Button id="btnReset" fx:id="btnReset" mnemonicParsing="false" text="Reset">
+                        <HBox.margin>
+                           <Insets left="16.0" right="16.0" />
+                        </HBox.margin>
+                     </Button>
+                     <Button id="btnGenerate" fx:id="btnGenerate" mnemonicParsing="false" text="Generate">
+                        <HBox.margin>
+                           <Insets left="16.0" right="16.0" />
+                        </HBox.margin>
+                     </Button>
+                  </children>
+                  <VBox.margin>
+                     <Insets bottom="4.0" left="8.0" right="8.0" top="4.0" />
+                  </VBox.margin>
+               </HBox>
+            </children>
+         </VBox>
+         <VBox prefWidth="300.0">
+            <children>
+               <HBox alignment="CENTER_LEFT" prefWidth="200.0">
+                  <children>
+                     <RadioButton id="radioFixLength" fx:id="radioFixLength" mnemonicParsing="false" selected="true" text="Fixed Length:">
+                        <toggleGroup>
+                           <ToggleGroup fx:id="grpLengthOption" />
+                        </toggleGroup>
+                        <HBox.margin>
+                           <Insets right="4.0" />
+                        </HBox.margin>
+                     </RadioButton>
+                     <TextField id="txtFixLength" fx:id="txtFixLength" alignment="CENTER" prefHeight="27.0" prefWidth="40.0" text="10" />
+                  </children>
+               </HBox>
+                <HBox alignment="CENTER_LEFT" prefWidth="200.0">
+                    <children>
+                     <RadioButton id="radioVariableLength" fx:id="radioVariableLength" mnemonicParsing="false" text="Variable Length from" toggleGroup="$grpLengthOption">
+                        <HBox.margin>
+                           <Insets right="4.0" />
+                        </HBox.margin>
+                     </RadioButton>
+                        <TextField id="txtVariableLengthFrom" fx:id="txtVariableLengthFrom" alignment="CENTER" disable="true" prefHeight="27.0" prefWidth="40.0" text="3" />
+                        <Label prefHeight="27.0" prefWidth="13.0" text="to">
+                            <HBox.margin>
+                                <Insets left="4.0" right="4.0" />
+                            </HBox.margin>
+                        </Label>
+                        <TextField id="txtVariableLengthTo" fx:id="txtVariableLengthTo" alignment="CENTER" disable="true" prefHeight="27.0" prefWidth="40.0" text="10" />
+                    </children>
+                </HBox>
+               <Separator prefWidth="200.0">
+                  <VBox.margin>
+                     <Insets bottom="8.0" top="8.0" />
+                  </VBox.margin>
+               </Separator>
+               <RadioButton id="radioRandomByGroup" fx:id="radioRandomByGroup" mnemonicParsing="false" selected="true" text="Random by Group, and then character">
+                  <VBox.margin>
+                     <Insets bottom="6.0" top="6.0" />
+                  </VBox.margin>
+                  <toggleGroup>
+                     <ToggleGroup fx:id="grpRandomMethod" />
+                  </toggleGroup>
+               </RadioButton>
+               <RadioButton id="radioRandomByCharacter" fx:id="radioRandomByCharacter" mnemonicParsing="false" text="Random by all possible character" toggleGroup="$grpRandomMethod">
+                  <VBox.margin>
+                     <Insets bottom="6.0" top="6.0" />
+                  </VBox.margin>
+               </RadioButton>
+               <Separator prefWidth="200.0">
+                  <VBox.margin>
+                     <Insets bottom="8.0" top="8.0" />
+                  </VBox.margin>
+               </Separator>
+               <TextArea id="txtOutput" fx:id="txtOutput" prefHeight="143.0" promptText="Output" wrapText="true">
+                  <VBox.margin>
+                     <Insets bottom="7.0" />
+                  </VBox.margin>
+                  </TextArea>
+               <HBox alignment="CENTER" prefWidth="284.0">
+                  <children>
+                     <Button id="btnClear" fx:id="btnClear" mnemonicParsing="false" text="Clear">
+                        <HBox.margin>
+                           <Insets left="16.0" right="16.0" />
+                        </HBox.margin>
+                     </Button>
+                     <Button id="btnCopy" fx:id="btnCopy" mnemonicParsing="false" text="Copy">
+                        <HBox.margin>
+                           <Insets left="16.0" right="16.0" />
+                        </HBox.margin>
+                     </Button>
+                  </children>
+                  <VBox.margin>
+                     <Insets bottom="4.0" left="8.0" right="8.0" top="4.0" />
+                  </VBox.margin>
+               </HBox>
+            </children>
+            <HBox.margin>
+               <Insets left="4.0" />
+            </HBox.margin>
+         </VBox>
+      </children>
+      <padding>
+         <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
+      </padding>
+   </HBox>
+   </children>
+</Pane>
