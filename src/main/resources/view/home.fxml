@@ -17,7 +17,7 @@
                   <children>
                      <VBox prefHeight="151.0">
                         <children>
-                           <RadioButton id="radioDefinedGroup" fx:id="radioDefinedGroup" mnemonicParsing="false" selected="true" text="Pre-definded Group">
+                           <RadioButton id="radioDefinedGroup" fx:id="radioDefinedGroup" mnemonicParsing="false" selected="true" text="Pre-defined Group">
                               <toggleGroup>
                                  <ToggleGroup fx:id="grpPossibleChar" />
                               </toggleGroup>
