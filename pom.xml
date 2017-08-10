@@ -60,6 +60,11 @@
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>1.7.25</version>
 		</dependency>
+		<dependency>
+			<groupId>com.ronald8192.advancedRandom</groupId>
+			<artifactId>advanced-random</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 
 	</dependencies>
 </project>

@@ -1,16 +1,24 @@
 package com.ronald8192.randomStringGenerator.viewController;
 
+import com.ronald8192.advancedRandom.Range;
+import com.ronald8192.advancedRandom.SequenceGenerator;
+import com.ronald8192.randomStringGenerator.PreDefinedGroup;
+import com.ronald8192.randomStringGenerator.SequenceGeneratorBuilder;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.util.converter.NumberStringConverter;
 
 import java.net.URL;
 import java.text.ParsePosition;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 
@@ -86,24 +94,117 @@ public class HomeController implements Initializable {
     @FXML
     Button btnCopy;
 
-    private EventHandler<KeyEvent> positiveNumberFieldEventHandler = new EventHandler<KeyEvent>() {
-        public void handle(KeyEvent t) {
-            char ar[] = t.getCharacter().toCharArray();
-            if (ar.length != 0) {
-                char ch = ar[t.getCharacter().toCharArray().length - 1];
-                if (!(ch >= '0' && ch <= '9')) {
-                    //not a number
-                    t.consume();
-                }
+    EventHandler chkNumberOnAction = (EventHandler<ActionEvent>) event -> {
+        System.out.println("chkNumberOnAction");
+    };
+
+    EventHandler btnResetOnAction = (EventHandler<ActionEvent>) event -> {
+        radioDefinedGroup.setSelected(true);
+        chkNumber.setSelected(true);
+        chkLowerCase.setSelected(true);
+        chkUpperCase.setSelected(true);
+        chkSymbol1.setSelected(false);
+        chkSymbol2.setSelected(false);
+        chkSymbol3.setSelected(false);
+
+        txtMinOccurNumber.setText("2");
+        txtMinOccurLowerCase.setText("2");
+        txtMinOccurUpperCase.setText("2");
+        txtMinOccurSymbol1.setText("2");
+        txtMinOccurSymbol2.setText("1");
+        txtMinOccurSymbol3.setText("1");
+
+        txtAllPossibleCharacter.setText(""); //TODO: all possible char method
+        radioFixLength.setSelected(true);
+        txtFixLength.setText("6"); //TODO:min length method
+        txtVariableLengthFrom.setText("6"); //TODO:min length method
+
+        txtVariableLengthTo.setText("12");
+
+        radioRandomByGroup.setSelected(true);
+    };
+
+    EventHandler btnClearOnAction = (EventHandler<ActionEvent>) event -> {
+        txtOutput.clear();
+    };
+
+    EventHandler btnCopyOnAction = (EventHandler<ActionEvent>) event -> {
+        final Clipboard clipboard = Clipboard.getSystemClipboard();
+        final ClipboardContent content = new ClipboardContent();
+        content.putString(txtOutput.getText());
+        clipboard.setContent(content);
+    };
+
+    SequenceGeneratorBuilder builder = new SequenceGeneratorBuilder();
+    SequenceGenerator generator;
+    EventHandler btnGenerateOnAction = (EventHandler<ActionEvent>) event -> {
+        boolean preDefinedGroup = grpPossibleChar.getSelectedToggle().getUserData().toString().equals("radioDefinedGroup");
+        char[] customChar = {' '};
+
+        builder = new SequenceGeneratorBuilder();
+        if(preDefinedGroup){
+            if (chkNumber.isSelected()) builder.addPreDefinedGroup(PreDefinedGroup.NUMBER, Integer.parseInt(txtMinOccurNumber.getText()));
+            if (chkLowerCase.isSelected()) builder.addPreDefinedGroup(PreDefinedGroup.LOWERCASE, Integer.parseInt(txtMinOccurLowerCase.getText()));
+            if (chkUpperCase.isSelected()) builder.addPreDefinedGroup(PreDefinedGroup.UPPERCASE, Integer.parseInt(txtMinOccurUpperCase.getText()));
+            if (chkSymbol1.isSelected()) builder.addPreDefinedGroup(PreDefinedGroup.SYMBOL1, Integer.parseInt(txtMinOccurSymbol1.getText()));
+            if (chkSymbol2.isSelected()) builder.addPreDefinedGroup(PreDefinedGroup.SYMBOL2, Integer.parseInt(txtMinOccurSymbol2.getText()));
+            if (chkSymbol3.isSelected()) builder.addPreDefinedGroup(PreDefinedGroup.SYMBOL3, Integer.parseInt(txtMinOccurSymbol3.getText()));
+        }else{
+            customChar = txtAllPossibleCharacter.getText().toCharArray();
+            builder.setCustomRange(new Range(0, customChar.length - 1, 0));
+        }
+
+        boolean randomByGroup = grpRandomMethod.getSelectedToggle().getUserData().toString().equals("radioRandomByGroup");
+        if (randomByGroup) {
+            builder.setRandomMethod(SequenceGenerator.Mode.RANDOM_BY_RANGE_THEN_NUMBER);
+        } else {
+            builder.setRandomMethod(SequenceGenerator.Mode.RANDOM_BY_POSSIBLE_NUMBER);
+        }
+
+        generator = builder.build();
+        boolean fixLength = grpLengthOption.getSelectedToggle().getUserData().toString().equals("radioFixLength");
+        int len = generator.minLength();
+        if(generator.minLength() > Integer.parseInt(txtVariableLengthFrom.getText())){
+            txtVariableLengthFrom.setText(""+generator.minLength());
+        }
+        if (fixLength) {
+            if (generator.minLength() > Integer.parseInt(txtFixLength.getText())) {
+                txtFixLength.setText(generator.minLength() + "");
+            }else {
+                len = Integer.parseInt(txtFixLength.getText());
+            }
+        } else {
+            if (generator.minLength() > Integer.parseInt(txtVariableLengthTo.getText())) {
+                txtVariableLengthTo.setText(generator.minLength() + "");
+            } else {
+                len = Integer.parseInt(txtVariableLengthTo.getText());
             }
         }
+        try {
+            List<Integer> generated = generator.generateList(len, fixLength);
+            List<String> randomStringList = new ArrayList<>();
+            if (preDefinedGroup) {
+                generated.forEach(num -> randomStringList.add("" + PreDefinedGroup.getCharById(num)));
+            } else {
+                final char[] finalCustomChar = customChar;
+                generated.forEach(num -> randomStringList.add("" + finalCustomChar[num]));
+            }
+            txtOutput.setText(randomStringList.stream().reduce(((a, b) -> a + b)).get());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+
     };
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initializeUserData();
         setUpNumberField();
         registerListener();
+        btnReset.getOnAction().handle(new ActionEvent());
     }
 
     private void initializeUserData() {
@@ -126,9 +227,9 @@ public class HomeController implements Initializable {
         final TextFormatter<Number> formatter4 = new TextFormatter<>(converter, 1, converter.getFilter());
         final TextFormatter<Number> formatter5 = new TextFormatter<>(converter, 1, converter.getFilter());
         final TextFormatter<Number> formatter6 = new TextFormatter<>(converter, 1, converter.getFilter());
-        final TextFormatter<Number> formatter7 = new TextFormatter<>(converter, 1, converter.getFilter());
-        final TextFormatter<Number> formatter8 = new TextFormatter<>(converter, 1, converter.getFilter());
-        final TextFormatter<Number> formatter9 = new TextFormatter<>(converter, 1, converter.getFilter());
+        final TextFormatter<Number> formatter7 = new TextFormatter<>(converter, 3, converter.getFilter());
+        final TextFormatter<Number> formatter8 = new TextFormatter<>(converter, 3, converter.getFilter());
+        final TextFormatter<Number> formatter9 = new TextFormatter<>(converter, 10, converter.getFilter());
 
         txtMinOccurNumber.setTextFormatter(formatter1);
         txtMinOccurLowerCase.setTextFormatter(formatter2);
@@ -138,8 +239,8 @@ public class HomeController implements Initializable {
         txtMinOccurSymbol3.setTextFormatter(formatter6);
 
         txtFixLength.setTextFormatter(formatter7);
-        txtVariableLengthTo.setTextFormatter(formatter8);
-        txtVariableLengthFrom.setTextFormatter(formatter9);
+        txtVariableLengthFrom.setTextFormatter(formatter8);
+        txtVariableLengthTo.setTextFormatter(formatter9);
 
 
         formatter1.valueProperty().addListener((observable, oldValue, newValue) -> updatePossibleCharacters());
@@ -151,19 +252,9 @@ public class HomeController implements Initializable {
         formatter7.valueProperty().addListener((observable, oldValue, newValue) -> updatePossibleCharacters());
         formatter8.valueProperty().addListener((observable, oldValue, newValue) -> updatePossibleCharacters());
         formatter9.valueProperty().addListener((observable, oldValue, newValue) -> updatePossibleCharacters());
-
-
-//        txtMinOccurNumber.addEventFilter(KeyEvent.KEY_TYPED, positiveNumberFieldEventHandler);
-//        txtMinOccurLowerCase. addEventFilter(KeyEvent.KEY_TYPED, positiveNumberFieldEventHandler);
-//        txtMinOccurUpperCase.  addEventFilter(KeyEvent.KEY_TYPED, positiveNumberFieldEventHandler);
-//        txtMinOccurSymbol1.    addEventFilter(KeyEvent.KEY_TYPED, positiveNumberFieldEventHandler);
-//        txtMinOccurSymbol2.   addEventFilter(KeyEvent.KEY_TYPED, positiveNumberFieldEventHandler);
-//        txtMinOccurSymbol3.   addEventFilter(KeyEvent.KEY_TYPED, positiveNumberFieldEventHandler);
-//
-//        txtFixLength.         addEventFilter(KeyEvent.KEY_TYPED, positiveNumberFieldEventHandler);
-//        txtVariableLengthTo.  addEventFilter(KeyEvent.KEY_TYPED, positiveNumberFieldEventHandler);
-//        txtVariableLengthFrom.addEventFilter(KeyEvent.KEY_TYPED, positiveNumberFieldEventHandler);
     }
+
+
 
     class NumberStringFilteredConverter extends NumberStringConverter {
         // Note, if needed you can add in appropriate constructors
@@ -230,25 +321,33 @@ public class HomeController implements Initializable {
 
                     txtFixLength.setDisable(!fixLength);
 
-                    txtVariableLengthFrom.setDisable(fixLength);
+//                    txtVariableLengthFrom.setDisable(fixLength);
                     txtVariableLengthTo.setDisable(fixLength);
                 }
             }
         });
 
-        grpRandomMethod.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
-            @Override
-            public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
-                if (grpRandomMethod.getSelectedToggle() != null) {
-                    boolean randomByGroup = grpRandomMethod.getSelectedToggle().getUserData().toString().equals("radioRandomByGroup");
+//        grpRandomMethod.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+//            @Override
+//            public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
+//                if (grpRandomMethod.getSelectedToggle() != null) {
+//                    boolean randomByGroup = grpRandomMethod.getSelectedToggle().getUserData().toString().equals("radioRandomByGroup");
+//
+//                }
+//            }
+//        });
 
-                }
-            }
-        });
+        chkNumber.setOnAction(chkNumberOnAction);
+        btnReset.setOnAction(btnResetOnAction);
+        btnGenerate.setOnAction(btnGenerateOnAction);
+        btnClear.setOnAction(btnClearOnAction);
+        btnCopy.setOnAction(btnCopyOnAction);
     }
 
     private void updatePossibleCharacters(){
+        //TODO
         System.out.println("update char");
     }
+
 
 }
